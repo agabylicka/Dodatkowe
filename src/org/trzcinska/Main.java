@@ -1,8 +1,5 @@
 package org.trzcinska;
 
-import org.trzcinska.Author;
-import org.trzcinska.Book;
-import org.trzcinska.Library;
 import java.util.Scanner;
 import java.util.*;
 
@@ -19,10 +16,13 @@ public class Main {
                     "3.Show books " +
                     "4.Exit ");
             answer = scanner.nextLine();
-            if (answer.equals("1")) {
+            if (answer.equals("4")) {
+                //"4.exit"
+                keep = false;
+            } else if (answer.equals("1")) {
                 System.out.println("What is the name of the author? ");
                 String author = scanner.nextLine();
-                List<String> books = methods.getBooksOfAuthor(author);
+                List<Book> books = methods.getBooksOfAuthor(author);
                 if (books.isEmpty()) { // gdy nie ma autora
                     System.out.println("What is the title of the book? ");
                     String title = scanner.nextLine();
@@ -31,6 +31,7 @@ public class Main {
                     System.out.println("What is the genre? ");
                     String fantasy = scanner.nextLine();
                     Book object = new Book(pages, fantasy, title);
+                    books.add(object);
                     methods.addBookToAuthor(author, object);
                 } else { //gdy jest autor
                     System.out.println("What is the title of the book?");
@@ -40,8 +41,8 @@ public class Main {
                         System.out.println("Title exist");
                     } else { // tytuł nie istnieje, dodać go
                         System.out.println("What is the number of pages?");
-                        int pages = Integer.parseInt(scanner.nextLine());
-                        System.out.println("What is the genre?");
+                        int pages = Integer.parseInt(scanner.nextLine()); //zapisana zmiennna dot. liczby stron??
+                        System.out.println("What is the genre?");  //Jeszcze nie uzywana, dopiero w sortowaniu
                         String fantasy = scanner.nextLine();
                         Book object = new Book(pages, fantasy, title);
                         methods.addBookToAuthor(author, object);
@@ -49,19 +50,17 @@ public class Main {
                 }
             } else if (answer.equals("2")) {
                 //"2. Show authors"
-                List<String> allAuthors = methods.getAllAuthors();
-                for (String author : allAuthors) {
-                    System.out.println(author); //iterowanie po kluczach
+                List<Author> allAuthors = methods.getAllAuthors();
+                for (Author author : allAuthors) {
+                    System.out.println(author.getName()); //iterowanie po kluczach
                 }
             } else if (answer.equals("3")) {
                 //"3. Show books"
-                List<String> allBooks = methods.getAllBooks();
-                for (String book : allBooks) {
-                    System.out.println(book); //iterowanie po wartościach
+                List<Book> allBooks = methods.getAllBooks();
+                Collections.sort(allBooks);
+                for (Book book : allBooks) {
+                    System.out.println(book.getTitle()); //iterowanie po wartościach
                 }
-            } else if (answer.equals("4")) {
-                //"4.exit"
-                break;
             } else {
                 System.out.println("Give proper answer");
             }

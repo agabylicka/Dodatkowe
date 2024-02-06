@@ -1,6 +1,6 @@
 package org.trzcinska;
 
-public class Book {
+public class Book implements Comparable {
     private String title;
     private String genre;
     private int numberOfPages;
@@ -9,20 +9,24 @@ public class Book {
         this.numberOfPages = numberOfPages;
         this.genre = genre;
         this.title = title;
-
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public String getGenre() {
-
-        return genre;
+        return this.genre;
     }
 
     public int getNumberOfPages() {
+        return this.numberOfPages;
+    }
 
-        return numberOfPages;
+    @Override
+    public int compareTo(Object o) {
+        Book b = (Book) o;
+        //z int numberOfPages zrobić obiekt
+        return Integer.valueOf(this.numberOfPages).compareTo(b.getNumberOfPages());
     }
 }

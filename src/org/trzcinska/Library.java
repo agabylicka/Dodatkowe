@@ -3,61 +3,82 @@ package org.trzcinska;
 import java.util.*;
 
 public class Library {
-    HashMap<String, List<String>> authorAndBook = new HashMap<>();
+    private HashMap<Author, List<Book>> authorAndBook = new HashMap<>();
     private int numberOfPages;
-    Scanner scanner = new Scanner(System.in);
     String authorName;
+    Scanner scanner = new Scanner(System.in);
 
-    public List<String> getBooksOfAuthor(String authorName) {
+    public List<Book> getBooksOfAuthor(String authorName) {
         //z pomocą ifa sytuacje:
         //1. autor istnieje w bazie
-        if (authorAndBook.containsKey(this.authorName)) {
-            System.out.println("Author exist");
-            return authorAndBook.get(authorName);
+        for (Author author : authorAndBook.keySet()) {
+            if (author.getName().equals(authorName)) {
+                System.out.println("Found");
+                System.out.println(author);
+                return authorAndBook.get(author);
+            }
         }
-        return Collections.emptyList();
+        //jeśli autor nie istnieje, to zwróć mi pustą listę
+        return new ArrayList<>();
     }
 
-    public List<String> addBookToAuthor(String authorName, org.trzcinska.Book book) {
+    public void addBookToAuthor(String authorName, Book book) {
         //wyciągnij listę wartości dla tego autora i zapisz ja do zmiennej chwilowej
-        List<String> books = authorAndBook.get(this.authorName);
-        String title = book.getTitle();
+        List<Book> books = authorAndBook.get(authorName);
         //jeśli tytuł istnieje to kontynuuj
         if (books == null) {
             books = new ArrayList<>();
+            books.add(book);
+            //dodać autora
+            System.out.println("What is the age of the author? ");
+            int age = Integer.parseInt(scanner.nextLine());
+            System.out.println("What is the favourite genre? ");
+            String genre = scanner.nextLine();
+            Author author = new Author(authorName, age, genre);
+            authorAndBook.put(author, books);
+            return;
         }
-
-        if (books.contains(title)) {
-            System.out.println("Title exist");
-        } else {
-            //dodanie tytułu do listy
-            books.add(title);
-            authorAndBook.put(authorName, books);
+        //sprawdź czy lista książek zawiera podany tytuł
+        //iteruje po liście odczytanych ksiazek autora
+        for (Book book1 : books) {
+            //żeby znaleźć właściwy tytuł
+            if (book1.getTitle().equals(book.getTitle())) {
+                System.out.println("Found");
+                System.out.println(book1);
+                return;
+            }
         }
-        return books;
+        //jeśli tytuł nie istnieje, to dodaj go do mapy
+        books.add(book);
+        //find author of the book by authorName
+        for (Author author : authorAndBook.keySet()) {
+            if (author.getName().equals(authorName)) {
+                //dodaje książkę do znalezionego autora
+                authorAndBook.put(author, books);
+            }
+        }
     }
 
-    public List<String> getAllAuthors() {
-        List<String> authors = new ArrayList<>();
-        for (String author : authorAndBook.keySet()) {
+    public List<Author> getAllAuthors() {
+        List<Author> authors = new ArrayList<>();
+        for (Author author : authorAndBook.keySet()) {
             authors.add(author);
         }
         return authors;
     }
 
-    public List<String> getAllBooks() {
-        List<String> books = new ArrayList<>();
-        for (String key : authorAndBook.keySet()) {
-            List<String> publications = authorAndBook.get(key); //wybiera książki na podstawie autora z hashmapy
-            for (String publication : publications) {  //wybiera pojedynczy tytuł z listy pojedynczego autora
+    public List<Book> getAllBooks() {
+        List<Book> books = new ArrayList<>();
+        for (Author author : authorAndBook.keySet()) {
+            List<Book> publications = authorAndBook.get(author); //wybiera książki na podstawie autora z hashmapy
+            for (Book publication : publications) {  //wybiera pojedynczy tytuł z listy pojedynczego autora
                 books.add(publication);
             }
         }
         return books;
     }
 
-    public HashMap<String, List<String>> getAllBooksAndAuthors() {
-
+    public HashMap<Author, List<Book>> getAllBooksAndAuthors() {
         return authorAndBook;
     }
 
