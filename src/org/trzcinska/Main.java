@@ -41,8 +41,8 @@ public class Main {
                         System.out.println("Title exist");
                     } else { // tytuł nie istnieje, dodać go
                         System.out.println("What is the number of pages?");
-                        int pages = Integer.parseInt(scanner.nextLine()); //zapisana zmiennna dot. liczby stron??
-                        System.out.println("What is the genre?");  //Jeszcze nie uzywana, dopiero w sortowaniu
+                        int pages = Integer.parseInt(scanner.nextLine());
+                        System.out.println("What is the genre?");
                         String fantasy = scanner.nextLine();
                         Book object = new Book(pages, fantasy, title);
                         methods.addBookToAuthor(author, object);

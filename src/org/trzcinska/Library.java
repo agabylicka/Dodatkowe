@@ -4,8 +4,6 @@ import java.util.*;
 
 public class Library {
     private HashMap<Author, List<Book>> authorAndBook = new HashMap<>();
-    private int numberOfPages;
-    String authorName;
     Scanner scanner = new Scanner(System.in);
 
     public List<Book> getBooksOfAuthor(String authorName) {
@@ -23,9 +21,9 @@ public class Library {
     }
 
     public void addBookToAuthor(String authorName, Book book) {
-        //wyciągnij listę wartości dla tego autora i zapisz ja do zmiennej chwilowej
+        //wyciągnąć listę wartości dla tego autora i zapisać ją do zmiennej chwilowej
         List<Book> books = authorAndBook.get(authorName);
-        //jeśli tytuł istnieje to kontynuuj
+        //jeśli tytuł istnieje to kontynuować
         if (books == null) {
             books = new ArrayList<>();
             books.add(book);
@@ -38,7 +36,7 @@ public class Library {
             authorAndBook.put(author, books);
             return;
         }
-        //sprawdź czy lista książek zawiera podany tytuł
+        //sprawdźić czy lista książek zawiera podany tytuł
         //iteruje po liście odczytanych ksiazek autora
         for (Book book1 : books) {
             //żeby znaleźć właściwy tytuł
